@@ -1,5 +1,5 @@
 <template>
-    <nav class="bg-gray-800 p-4 fixed w-full">
+    <nav class="p-4 fixed w-full border-b border-background">
       <div class="container flex justify-between items-center">
         <!-- Logo -->
         <div class="hidden md:block w-1/3">
