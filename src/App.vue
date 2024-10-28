@@ -7,7 +7,7 @@ import router from "./router";
 <template>
   <div class="flex">
     <Sidebar />
-    <div class="w-full max-h-screen overflow-auto">
+    <div class="w-full max-h-screen overflow-auto bg-gray-200">
       <!-- <NavBar /> -->
       <router-view class="pt-[70px] max-h-screen"> </router-view>
     </div>

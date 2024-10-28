@@ -75,7 +75,7 @@
 
       <!-- Task List -->
       <div class="text-lg font-bold mb-4">All Tasks</div>
-      <div class="flex flex-wrap gap-5">
+      <div class="flex flex-wrap justify-center gap-10">
         <TaskCard
           v-for="task in filteredTasks"
           :key="task.id"
