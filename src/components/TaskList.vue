@@ -1,5 +1,4 @@
 <template>
-
     <div class="flex-grow basis-1/4 bg-gray-200 rounded-t-xl p-[20px]">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold">{{ title }}</h2>
@@ -12,15 +11,17 @@
 
         <div class="py-4">
             <!-- Divider with padding -->
-            <div class="border-t-4 border-primary "></div>
+            <div class="border-t-4 border-primary"></div>
         </div>
+
         <div class="flex flex-col gap-y-4">
+            <!-- Check if tasks are available -->
+            <div v-if="tasks.length === 0" class="text-center text-gray-500">
+                No tasks available.
+            </div>
             <TaskCard v-for="task in tasks" :key="task.id" :task="task" />
         </div>
-        </div>
-
-        
-
+    </div>
 </template>
 
 <script>

@@ -10,15 +10,13 @@
         <div class="flex items-center justify-between">
           <div class="flex items-center">
             <span class="inline-block w-8 h-8 bg-blue-500 rounded-full"></span>
-            <span v-if="isSidebarOpen" class="ml-2 text-lg font-semibold"
-              >Project M.</span
-            >
+            <span v-if="isSidebarOpen" class="ml-2 text-lg font-semibold">Project M.</span>
           </div>
-          <button @click="toggleSidebar" class="text-white focus:outline-none">
+          <button @click="toggleSidebar" class="focus:outline-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               :class="isSidebarOpen ? 'rotate-90' : 'rotate-0'"
-              class="h-6 w-6 text-gray-600 transition-transform duration-300"
+              class="w-6 h-6 text-gray-600 transition-transform duration-300"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
@@ -45,7 +43,7 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="size-6"
+              class="w-6 h-6"
             >
               <path
                 stroke-linecap="round"
@@ -66,7 +64,7 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="size-6"
+              class="w-6 h-6"
             >
               <path
                 stroke-linecap="round"
@@ -87,7 +85,7 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="size-6"
+              class="w-6 h-6"
             >
               <path
                 stroke-linecap="round"
@@ -100,42 +98,38 @@
         </nav>
       </div>
 
+      <!-- Divider -->
       <div class="px-4">
-        <!-- Divider with padding -->
-        <div class="border-t border-gray-300 px-4"></div>
+        <div class="border-t border-gray-300"></div>
       </div>
 
       <!-- Middle Section for Projects -->
-      <div class="p-4" v-if="isSidebarOpen">
-        <h3 class="text-xs text-gray-500 uppercase tracking-wide">
-          My Projects
-        </h3>
-        <ul class="mt-4 space-y-2">
-          <li>
-            <!-- Use router-link to navigate to the project page -->
-            <router-link
-              to="/projects"
-              class="flex items-center text-gray-600 p-2 rounded-lg hover:bg-purple-100"
-            >
-              <span
-                class="inline-block w-2 h-2 rounded-full bg-green-500"
-              ></span>
-              <span class="ml-2">Mobile App</span>
-            </router-link>
-          </li>
-        </ul>
-      </div>
+      <div class="flex-grow flex flex-col">
+        <div class="p-4" v-if="isSidebarOpen">
+          <h3 class="text-xs text-gray-500 uppercase tracking-wide">My Projects</h3>
+          <ul class="mt-4 space-y-2">
+            <li v-for="project in projects" :key="project.id">
+              <router-link
+                :to="'/tasks/project/' + project.id"
+                class="flex items-center text-gray-600 p-2 rounded-lg hover:bg-purple-100"
+              >
+                <span class="inline-block w-2 h-2 rounded-full bg-green-500"></span>
+                <span class="ml-2">{{ project.name }}</span>
+              </router-link>
+            </li>
+          </ul>
+        </div>
 
-      <!-- Bottom Section (Thoughts Time) -->
-      <div class="p-4" v-if="isSidebarOpen">
-        <div class="bg-gray-100 p-4 rounded-lg">
-          <p class="text-sm text-gray-500">
-            We don't have any notices for you. You can share your thoughts with
-            peers.
-          </p>
-          <button class="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg">
-            Write a message
-          </button>
+        <!-- Bottom Section (Write a Message) -->
+        <div class="p-4 mt-auto" v-if="isSidebarOpen">
+          <div class="bg-gray-100 p-4 rounded-lg">
+            <p class="text-sm text-gray-500">
+              We don't have any notices for you. You can share your thoughts with peers.
+            </p>
+            <button class="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg">
+              Write a message
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -143,18 +137,27 @@
 </template>
 
 <script>
-import NavBar from "./NavBar.vue";
-
+  import axios from 'axios';
 export default {
-  components: {
-    NavBar,
-  },
+
   data() {
     return {
       isSidebarOpen: true,
+      projects: [], 
     };
   },
+    created() {
+    this.fetchProjects();
+  },
   methods: {
+    async fetchProjects() {
+      try {
+        const response = await axios.get('http://localhost:3000/api/projects');
+        this.projects = response.data;  // Assuming the API returns an array of projects
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      }
+    },
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
@@ -163,5 +166,5 @@ export default {
 </script>
 
 <style scoped>
-/* Add custom styles here if needed */
+/* Custom styles if needed */
 </style>

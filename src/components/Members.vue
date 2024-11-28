@@ -1,8 +1,8 @@
 <template>
-  <div class="">
+  <div class="px-[40px]">
     <!-- Header Section -->
-    <div class="flex items-center justify-between mb-4">
-      <div class="flex items-center justify-between gap-4">
+    <div class="flex items-center justify-between mb-4 pt-[40px]">
+      <div class="flex items-center justify-between gap-4 ">
         <h1 class="text-xl font-semibold">Project Name</h1>
         <div class="flex items-center -space-x-2">
           <img v-for="(member, index) in members.slice(0, 3)" :key="member.id" class="w-8 h-8 rounded-full border-2 border-white" :src="member.profile_picture" :alt="member.name" />
@@ -28,43 +28,57 @@
 
     <!-- Table Section -->
     <div class="overflow-x-auto">
-      <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-        <thead class="bg-gray-100">
-          <tr>
-            <th class="px-4 py-2 text-left text-gray-600 font-semibold">Name</th>
-            <th class="px-4 py-2 text-left text-gray-600 font-semibold">Email</th>
-            <th class="px-4 py-2 text-left text-gray-600 font-semibold">Location</th>
-            <th class="px-4 py-2 text-left text-gray-600 font-semibold">Global Role</th>
-            <th class="px-4 py-2 text-left text-gray-600 font-semibold">Project Role</th>
-            <th class="px-4 py-2 text-center text-gray-600 font-semibold">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(member, index) in members" :key="member.id" class="hover:bg-gray-50">
-            <td class="px-4 py-2 border-t border-gray-200 flex items-center gap-2">
-              <img class="w-8 h-8 rounded-full" :src="member.profile_picture" :alt="member.name" />
-              {{ member.name }}
-            </td>
-            <td class="px-4 py-2 border-t border-gray-200">{{ member.email }}</td>
-            <td class="px-4 py-2 border-t border-gray-200">{{ member.location }}</td>
-            <td class="px-4 py-2 border-t border-gray-200">
-              <span class="px-2 py-1 rounded text-white" :class="roleColor(member.global_role)">
-                {{ member.global_role }}
-              </span>
-            </td>
-            <td class="px-4 py-2 border-t border-gray-200">
-              <span class="px-2 py-1 rounded text-white" :class="roleColor(member.project_role)">
-                {{ member.project_role }}
-              </span>
-            </td>
-            <td class="px-4 py-2 border-t border-gray-200 text-center">
-              <button v-if="userCanEdit" class="text-blue-600 hover:underline">Edit Role</button>
-              <button v-if="userCanEdit" class="text-red-600 hover:underline ml-2">Remove</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+    <thead class="bg-gray-100 hidden md:table-header-group">
+      <tr>
+        <th class="px-4 py-2 text-left text-gray-600 font-semibold">Name</th>
+        <th class="px-4 py-2 text-left text-gray-600 font-semibold hidden lg:table-cell">Email</th>
+        <th class="px-4 py-2 text-left text-gray-600 font-semibold hidden lg:table-cell">Location</th>
+        <th class="px-4 py-2 text-left text-gray-600 font-semibold">Global Role</th>
+        <th class="px-4 py-2 text-left text-gray-600 font-semibold">Project Role</th>
+        <th class="px-4 py-2 text-center text-gray-600 font-semibold hidden md:table-cell">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="(member, index) in members"
+        :key="member.id"
+        class="md:hover:bg-gray-50 flex flex-col md:table-row"
+      >
+        <td class="px-4 py-2 border-t border-gray-200 flex items-center gap-2">
+          <img class="w-8 h-8 rounded-full" :src="member.profile_picture" :alt="member.name" />
+          <div class="md:hidden">
+            <div class="font-semibold">{{ member.name }}</div>
+            <div class="text-sm text-gray-500">{{ member.global_role }} / {{ member.project_role }}</div>
+          </div>
+          <span class="hidden md:inline">{{ member.name }}</span>
+        </td>
+        <td class="px-4 py-2 border-t border-gray-200 hidden lg:table-cell">{{ member.email }}</td>
+        <td class="px-4 py-2 border-t border-gray-200 hidden lg:table-cell">{{ member.location }}</td>
+        <td class="px-4 py-2 border-t border-gray-200">
+          <span class="px-2 py-1 rounded text-white" :class="roleColor(member.global_role)">
+            {{ member.global_role }}
+          </span>
+        </td>
+        <td class="px-4 py-2 border-t border-gray-200">
+          <span class="px-2 py-1 rounded text-white" :class="roleColor(member.project_role)">
+            {{ member.project_role }}
+          </span>
+        </td>
+        <td class="px-4 py-2 border-t border-gray-200 text-center hidden md:table-cell">
+          <button v-if="userCanEdit" class="text-blue-600 hover:underline">Edit Role</button>
+          <button v-if="userCanEdit" class="text-red-600 hover:underline ml-2">Remove</button>
+        </td>
+        <!-- Actions for mobile view -->
+        <td v-if="userCanEdit" class="md:hidden flex justify-between px-4 py-2 border-t border-gray-200">
+          <button class="text-blue-600 hover:underline">Edit Role</button>
+          <button class="text-red-600 hover:underline ml-2">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
   </div>
 </template>
 

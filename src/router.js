@@ -10,7 +10,8 @@ const routes = [
   { path: '/members', component: Members },
   { path: '/messages', component: Message },
   { path: '/tasks', component: Task },
-  { path: '/projects', component: Project }
+  { path: '/tasks/project/:id', component: Project }
+
 ];
 
 const router = createRouter({
